@@ -1,23 +1,14 @@
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Cell {
+public class Cell extends Rectangle {
 
-    private double cellSize = 100; // cell side size
-    private double x; // X cell coordinate
-    private double y; // Y cell coordinate
-    private boolean state; // active/passive cell state (passive (false) = empty cell, active (true) = snake or food)
+    private static double cellSize = 100; // cell side size
+    private boolean state = false; // active/passive cell state (passive (false) = empty cell, active (true) = snake or food)
 
     // getters
     public double getCellSize() {
         return cellSize;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
     }
 
     public boolean getState() {
@@ -25,16 +16,8 @@ public class Cell {
     }
 
     // setters
-    public void setCellSize(double cellSize) {
-        this.cellSize = cellSize;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
+    public void setCellSize(double size) {
+        cellSize = size;
     }
 
     public void setState(boolean state) {
@@ -43,10 +26,19 @@ public class Cell {
 
     // cell constructor
     public Cell(double x, double y) {
-        this.x = x;
-        this.y = y;
-        state = false;
-        Rectangle rectangle = new Rectangle(x,y,cellSize,cellSize);
+        this.setX(x);
+        this.setY(y);
+        this.switchState();
+    }
+
+    // switch active/passive cell state
+    public void switchState(){
+        if(this.getState() == false){
+            this.setFill(Color.WHITE);
+        } else{
+            this.setFill(Color.GRAY);
+        }
+
     }
 
 
