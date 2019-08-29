@@ -3,43 +3,46 @@ import javafx.scene.shape.Rectangle;
 
 public class Cell extends Rectangle {
 
-    private static double cellSize = 100; // cell side size
-    private boolean state = false; // active/passive cell state (passive (false) = empty cell, active (true) = snake or food)
+    private static final double CELL_SIZE = 100; // cell side size
+    private State state; // cell state
 
-    // getters
-    public double getCellSize() {
-        return cellSize;
+    // cell state options
+    private static enum State {
+
+        DEFAULT {
+            public Color getColor() {
+                return Color.WHITE;
+            }
+        },
+        SNAKE {
+            public Color getColor() {
+                return Color.GRAY;
+            }
+        },
+        FOOD {
+            public Color getColor() {
+                return Color.TOMATO;
+            }
+        };
+
+        public abstract Color getColor();
+
     }
 
-    public boolean getState() {
+    // returns cell state
+    public State getState() {
         return state;
     }
 
-    // setters
-    public void setCellSize(double size) {
-        cellSize = size;
-    }
-
-    public void setState(boolean state) {
+    // sets cell state and color
+    public void setState(State state) {
         this.state = state;
+        this.setFill(this.getState().getColor());
     }
 
     // cell constructor
     public Cell(double x, double y) {
-        this.setX(x);
-        this.setY(y);
-        this.switchState();
+        super(x, y, CELL_SIZE, CELL_SIZE);
     }
-
-    // switch active/passive cell state
-    public void switchState(){
-        if(this.getState() == false){
-            this.setFill(Color.WHITE);
-        } else{
-            this.setFill(Color.GRAY);
-        }
-
-    }
-
 
 }
