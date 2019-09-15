@@ -1,8 +1,9 @@
-package by.home.snake;
+package by.home.snake.cells_abstraction;
 
 /**
- * Game Field is a net that consists of cells. A by.home.snake.Cell is an elementary unit of the game.
+ * Game Field is a net that consists of cells. A by.home.snake.cells_abstraction.Cell is an elementary unit of the game.
  */
+//TODO: переименовать в просто FIELD
 public class GameField {
 
     public static final int SIDE_SIZE = 10;

@@ -1,4 +1,4 @@
-package by.home.snake;
+package by.home.snake.cells_abstraction;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
