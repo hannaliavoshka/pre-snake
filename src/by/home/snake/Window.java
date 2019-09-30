@@ -2,10 +2,13 @@ package by.home.snake;
 
 import by.home.snake.cells_abstraction.Cell;
 import by.home.snake.cells_abstraction.GameField;
+import by.home.snake.cells_abstraction.Snake;
+import by.home.snake.user_interaction.Controller;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 
 //TODO please split this class to double another classes:
 //first for extends of Application. It contains:
@@ -27,7 +30,10 @@ public class Window extends Application {
     public void start(Stage primaryStage) {
         Group rootGroup = new Group();
         Scene rootScene = new Scene(rootGroup, windowSize, windowSize);
+        Controller controller = new Controller (rootScene);
         gameField = new GameField();
+        //Snake snake = new Snake(gameField.getCell(1,1));
+
 
         fillGroup(rootGroup);
 
