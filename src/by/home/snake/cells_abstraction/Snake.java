@@ -30,6 +30,10 @@ public class Snake {
         return true;
     }
 
+    public Cell getSnakeHead(){
+        return snake.getFirst();
+    }
+
     private void grow(Cell cell) {
         cell.setState(Cell.State.SNAKE);
         snake.addFirst(cell);

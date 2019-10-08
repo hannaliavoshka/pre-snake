@@ -1,5 +1,7 @@
 package by.home.snake.cells_abstraction;
 
+import javafx.util.Pair;
+
 /**
  * Game Field is a net that consists of cells. A by.home.snake.cells_abstraction.Cell is an elementary unit of the game.
  */
@@ -23,7 +25,11 @@ public class GameField {
         int y = 0;
         for (int i = 0; i < cellNet.length; i++) {
             for (int j = 0; j < cellNet.length; j++) {
-                cellNet[i][j] = new Cell(x,y);
+
+                Cell cell = new Cell(x,y);
+                cell.setCoordinate(new Pair<>(i,j));
+
+                cellNet[i][j] = cell;
                 x += Cell.CELL_SIZE;
             }
             y += Cell.CELL_SIZE;
