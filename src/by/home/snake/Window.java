@@ -3,7 +3,7 @@ package by.home.snake;
 import by.home.snake.cells_abstraction.Cell;
 import by.home.snake.cells_abstraction.GameField;
 import by.home.snake.cells_abstraction.Snake;
-import by.home.snake.user_interaction.Controller;
+import by.home.snake.user_interaction.UserActionController;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -30,18 +30,21 @@ public class Window extends Application {
     public void start(Stage primaryStage) {
         Group rootGroup = new Group();
         Scene rootScene = new Scene(rootGroup, windowSize, windowSize);
-        Controller controller = new Controller (rootScene);
+
+        UserActionController controller = new UserActionController(rootScene);
+        controller.setEventHandler();
+
         gameField = new GameField();
-        //Snake snake = new Snake(gameField.getCell(1,1));
-
-
         fillGroup(rootGroup);
+
+        Snake snake = new Snake(gameField.getCell(1,1));
+        // создать еду
 
         primaryStage.setTitle(WINDOW_TITLE);
         primaryStage.setScene(rootScene);
         primaryStage.show();
 
-        //  ---
+        // создать игру
     }
 
     private void fillGroup(Group group) {
@@ -51,4 +54,5 @@ public class Window extends Application {
             }
         }
     }
+
 }
