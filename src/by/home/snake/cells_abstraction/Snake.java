@@ -8,49 +8,42 @@ public class Snake {
 
     public Snake(Cell cell) {
         snake = new ArrayDeque<>();
-        grow(cell);
-
         //when the snake is created, it needs a one Cell for it's body
-        //cell.setState(Cell.State.SNAKE); //isTODO merge invocation of method setState and inv meth addFirst to one private method
-        //snake.addFirst(cell); //TODO to be careful to use arrayDeque methods, read the spec
-        // https://docs.oracle.com/javase/7/docs/api/java/util/ArrayDeque.html
+        grow(cell);
     }
 
-    // змея может двигаться
-    public boolean move(Cell cell){
-        //isTODO isAlive? then return false
-        //isTODO isGROw? if yes then not delete tail and retun true, if no next to do
-        //isTODO: snake add first cell and remove the last return true
-
-        boolean isMove = false;
-        if (isAlive(cell)){
-            if (isGrow(cell)){
-                grow(cell);
-            } else {
-                snake.addFirst(cell);
-                snake.removeLast();
-            }
-            isMove = true;
+    // змея может двигаться, если продвижение вперед прошло успешно - вернем true
+    public boolean move(Cell cell) {
+        // если врезались сами в себя возвращаем false
+        if (!isAlive(cell)) {
+            return false;
         }
-        return isMove;
+
+        // если еда - растём, если нет - продвигаемся вперед.
+        if (isGrow(cell)) {
+            grow(cell);
+        } else {
+            snake.addFirst(cell);
+            snake.removeLast();
+        }
+
+        return true;
     }
 
-    private void grow (Cell cell){
+    private void grow(Cell cell) {
         cell.setState(Cell.State.SNAKE);
         snake.addFirst(cell);
     }
 
-    // змея может вырасти (если при добавлении новой координаты окажется что такая есть - умираем)
-    private boolean isGrow(Cell cell){
-        //isTODO: if cell state is apple return true
+
+    // if cell state is apple return true
+    private boolean isGrow(Cell cell) {
         return (cell.getState() == Cell.State.FOOD);
     }
 
-    private boolean isAlive(Cell cell){
-        // в этом ли методе мы обрабатываем исключение null? Думаю, исключение вылезет раньше, когда мы попытаемся
-        // обратиться к несуществующему элементу массива cellNet
-        //TODO if cell state is snake or end of field (NULL)
-        return (cell.getState() != Cell.State.SNAKE);
+    // if state is snake return false
+    private boolean isAlive(Cell cell) {
+        return cell != null && (cell.getState() != Cell.State.SNAKE);
     }
 
 }
