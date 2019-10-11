@@ -24,6 +24,8 @@ public class Snake {
             grow(cell);
         } else {
             snake.addFirst(cell);
+            cell.setState(Cell.State.SNAKE);
+            snake.getLast().setState(Cell.State.DEFAULT);
             snake.removeLast();
         }
 

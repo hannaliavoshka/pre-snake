@@ -48,38 +48,48 @@ public class Window extends Application {
 
         // --- --- ---
 
-        boolean gameIsRunning = true;
-        while (gameIsRunning) {
-            Thread.sleep(2000);
+        Thread actions = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean gameIsRunning = true;
+                while (gameIsRunning) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-            Direction direction = controller.getDirection();
+                    Direction direction = controller.getDirection();
 
-            Cell head = snake.getSnakeHead();
-            Pair<Integer, Integer> coordinate = head.getCoordinate();
-            int x = coordinate.getKey();
-            int y = coordinate.getValue();
+                    Cell head = snake.getSnakeHead();
+                    Pair<Integer, Integer> coordinate = head.getCoordinate();
+                    int x = coordinate.getKey();
+                    int y = coordinate.getValue();
 
-            try {
-                switch (direction) {
-                    case UP:
-                        gameIsRunning = snake.move(gameField.getCell(x, y + 1));
-                        break;
-                    case DOWN:
-                        gameIsRunning = snake.move(gameField.getCell(x, y - 1));
-                        break;
-                    case LEFT:
-                        gameIsRunning = snake.move(gameField.getCell(x - 1, y));
-                        break;
-                    case RIGHT:
-                        gameIsRunning = snake.move(gameField.getCell(x + 1, y));
-                        break;
+                    try {
+                        switch (direction) {
+                            case UP:
+                                gameIsRunning = snake.move(gameField.getCell(x - 1, y));
+                                break;
+                            case DOWN:
+                                gameIsRunning = snake.move(gameField.getCell(x + 1, y));
+                                break;
+                            case LEFT:
+                                gameIsRunning = snake.move(gameField.getCell(x, y - 1));
+                                break;
+                            case RIGHT:
+                                gameIsRunning = snake.move(gameField.getCell(x, y + 1));
+                                break;
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println("Ну что ж..");
+                        gameIsRunning = false;
+                    }
                 }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Ну что ж..");
             }
+        });
 
-            
-        }
+        actions.start();
     }
 
     private void fillGroup(Group group) {
