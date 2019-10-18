@@ -1,14 +1,13 @@
 package by.home.snake.cells_abstraction;
 
 import by.home.snake.utils.Coordinate;
-import javafx.util.Pair;
 
 /**
  * Game Field is a net that consists of cells. A by.home.snake.cells_abstraction.Cell is an elementary unit of the game.
  */
 public class Field {
 
-    public static final int SIDE_SIZE = 10;
+    public static final int SIDE_SIZE = 3;
     private Cell[][] cellNet;
 
     public Field() {
