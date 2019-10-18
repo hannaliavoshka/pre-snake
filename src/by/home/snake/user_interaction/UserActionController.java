@@ -6,28 +6,28 @@ import javafx.scene.input.KeyCode;
 public class UserActionController {
 
     private Scene scene;
-    private Direction direction;
+    private SnakeDirection snakeDirection;
 
     public UserActionController(Scene scene) {
         //используется созданная в window сцена
         this.scene = scene;
-        this.direction = Direction.UP;
+        this.snakeDirection = SnakeDirection.UP;
     }
 
-    private void setDirection(KeyCode inputCode) {
+    private void setSnakeDirection(KeyCode inputCode) {
         // устанавливаем направление, заданное с клавиатуры
         switch (inputCode) {
             case UP:
-                direction = Direction.UP;
+                snakeDirection = SnakeDirection.UP;
                 break;
             case DOWN:
-                direction = Direction.DOWN;
+                snakeDirection = SnakeDirection.DOWN;
                 break;
             case LEFT:
-                direction = Direction.LEFT;
+                snakeDirection = SnakeDirection.LEFT;
                 break;
             case RIGHT:
-                direction = Direction.RIGHT;
+                snakeDirection = SnakeDirection.RIGHT;
                 break;
         }
     }
@@ -36,10 +36,10 @@ public class UserActionController {
     public void setEventHandler() {
         // задали сцене EventHandler и переопределили метод handle который
         // отрабатывает на нажатие клавиши (см. анонимный класс)
-        scene.setOnKeyPressed(event -> setDirection(event.getCode()));
+        scene.setOnKeyPressed(event -> setSnakeDirection(event.getCode()));
     }
 
-    public Direction getDirection() {
-        return direction;
+    public SnakeDirection getSnakeDirection() {
+        return snakeDirection;
     }
 }

@@ -1,5 +1,6 @@
 package by.home.snake.cells_abstraction;
 
+import by.home.snake.utils.Coordinate;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
@@ -10,7 +11,7 @@ public class Cell extends Rectangle {
 
     private State state; // cell state
 
-    private Pair<Integer, Integer> coordinate;
+    private Coordinate coordinate;
 
     // cell constructor
     public Cell(double x, double y) {
@@ -30,11 +31,11 @@ public class Cell extends Rectangle {
         return state;
     }
 
-    public Pair<Integer, Integer> getCoordinate() {
+    public Coordinate getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(Pair<Integer, Integer> coordinate) {
+    public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
 

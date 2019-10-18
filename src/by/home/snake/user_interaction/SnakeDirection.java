@@ -1,6 +1,6 @@
 package by.home.snake.user_interaction;
 
-public enum Direction {
+public enum SnakeDirection {
     UP,
     DOWN,
     RIGHT,
