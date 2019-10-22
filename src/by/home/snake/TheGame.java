@@ -1,9 +1,11 @@
 package by.home.snake;
 
+import by.home.snake.cells_abstraction.Cell;
 import by.home.snake.cells_abstraction.Field;
 import by.home.snake.cells_abstraction.Snake;
 import by.home.snake.user_interaction.UserActionController;
 import by.home.snake.utils.Coordinate;
+
 
 public class TheGame implements Runnable {
 
@@ -23,7 +25,12 @@ public class TheGame implements Runnable {
 
     @Override
     public void run() {
+
+        //TODO - включить проверку, жива ли змея (не съела ли себя)
         boolean gameIsRunning = true;
+        //стартовая генерация еды
+        generateFood();
+
         while (gameIsRunning) {
 
             // задержка между фреймами игры
@@ -47,7 +54,24 @@ public class TheGame implements Runnable {
                     gameIsRunning = snakeIsMoving(x, y + 1);
                     break;
             }
+            // спрашиваем у змеи, нужна ли ей еда, если да - генерируем ее, меняем флаг на отрицательный
+            if (snake.needFood) {
+                generateFood();
+                snake.needFood = false;
+            }
+        }
+    }
 
+    private void generateFood() {
+        Cell food = null;
+        while (food == null) {
+            int x = (int) (Math.random() * BORDER_COORDINATE);
+            int y = (int) (Math.random() * BORDER_COORDINATE);
+            Cell potentialFood = field.getCell(x, y);
+            if (potentialFood.getState() == Cell.State.DEFAULT) {
+                food = potentialFood;
+                food.setState(Cell.State.FOOD);
+            }
         }
     }
 

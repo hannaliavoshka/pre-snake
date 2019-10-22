@@ -3,6 +3,10 @@ package by.home.snake.cells_abstraction;
 import java.util.ArrayDeque;
 
 public class Snake {
+    // у змеи можно спросить, жива ли она
+    public boolean isAlive = true;
+    // у змеи можно спросить, нужна ли ей еда
+    public boolean needFood;
     // змея это коллекция ссылок на клетки (очередь)
     private ArrayDeque<Cell> snake;
 
@@ -16,12 +20,14 @@ public class Snake {
     public boolean move(Cell cell) {
         // если врезались сами в себя возвращаем false
         if (!isAlive(cell)) {
+            isAlive = false;
             return false;
         }
 
         // если еда - растём, если нет - продвигаемся вперед.
         if (isGrow(cell)) {
             grow(cell);
+            needFood = true;
         } else {
             snake.addFirst(cell);
             cell.setState(Cell.State.SNAKE);
