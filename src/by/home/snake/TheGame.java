@@ -42,22 +42,22 @@ public class TheGame implements Runnable {
 
             switch (controller.getSnakeDirection()) {
                 case UP:
-                    gameIsRunning = snakeIsMoving(x - 1, y);
+                    gameIsRunning = snakeIsAlive(x - 1, y);
                     break;
                 case DOWN:
-                    gameIsRunning = snakeIsMoving(x + 1, y);
+                    gameIsRunning = snakeIsAlive(x + 1, y);
                     break;
                 case LEFT:
-                    gameIsRunning = snakeIsMoving(x, y - 1);
+                    gameIsRunning = snakeIsAlive(x, y - 1);
                     break;
                 case RIGHT:
-                    gameIsRunning = snakeIsMoving(x, y + 1);
+                    gameIsRunning = snakeIsAlive(x, y + 1);
                     break;
             }
-            // спрашиваем у змеи, нужна ли ей еда, если да - генерируем ее, меняем флаг на отрицательный
-            if (snake.needFood) {
+
+            // если змея съела еду,то генерируем новую еду
+            if (snake.getState() == Snake.State.GROW) {
                 generateFood();
-                snake.needFood = false;
             }
         }
     }
@@ -75,16 +75,23 @@ public class TheGame implements Runnable {
         }
     }
 
-    private boolean snakeIsMoving(int x, int y) {
+    private boolean snakeIsAlive(int x, int y) {
         // выход за пределы массива поля равнозначен столкновению со стеной
         if (x > BORDER_COORDINATE || x < 0 ||
                 y > BORDER_COORDINATE || y < 0) {
-
-            System.out.println("Новый ну что ж.. = )");
+            snake.setState(Snake.State.BUMP_INTO_WALL);
+            System.out.println("Дурында врезалась в стену :(");
             return false;
         }
 
-        return snake.move(field.getCell(x, y));
+        snake.move(field.getCell(x, y));
+
+        if (snake.getState() == Snake.State.BYTE_ITSELF) {
+            System.out.println("Балда укусила себя за хвост :(");
+            return false;
+        }
+        // если змея осталась жива
+        return true;
     }
 
     private void sleep() {
