@@ -1,7 +1,7 @@
 package by.home.snake;
 
-import by.home.snake.cells_abstraction.Cell;
 import by.home.snake.cells_abstraction.Field;
+import by.home.snake.cells_abstraction.Food;
 import by.home.snake.cells_abstraction.Snake;
 import by.home.snake.user_interaction.UserActionController;
 import by.home.snake.utils.Coordinate;
@@ -9,11 +9,12 @@ import by.home.snake.utils.Coordinate;
 
 public class TheGame implements Runnable {
 
-    private static final int BORDER_COORDINATE = Field.SIDE_SIZE - 1;
+    public static final int BORDER_COORDINATE = Field.SIDE_SIZE - 1;
 
     private UserActionController controller;
     private Snake snake;
     private Field field;
+    private Food food;
 
     private long gameSpeed = 500;
 
@@ -25,14 +26,12 @@ public class TheGame implements Runnable {
 
     @Override
     public void run() {
-
-        //TODO - включить проверку, жива ли змея (не съела ли себя)
-        boolean gameIsRunning = true;
         //стартовая генерация еды
-        generateFood();
+        food = new Food(field);
+
+        boolean gameIsRunning = true;
 
         while (gameIsRunning) {
-
             // задержка между фреймами игры
             sleep();
 
@@ -42,40 +41,27 @@ public class TheGame implements Runnable {
 
             switch (controller.getSnakeDirection()) {
                 case UP:
-                    gameIsRunning = snakeIsAlive(x - 1, y);
+                    gameIsRunning = snakeIsMoving(x - 1, y);
                     break;
                 case DOWN:
-                    gameIsRunning = snakeIsAlive(x + 1, y);
+                    gameIsRunning = snakeIsMoving(x + 1, y);
                     break;
                 case LEFT:
-                    gameIsRunning = snakeIsAlive(x, y - 1);
+                    gameIsRunning = snakeIsMoving(x, y - 1);
                     break;
                 case RIGHT:
-                    gameIsRunning = snakeIsAlive(x, y + 1);
+                    gameIsRunning = snakeIsMoving(x, y + 1);
                     break;
             }
 
             // если змея съела еду,то генерируем новую еду
             if (snake.getState() == Snake.State.GROW) {
-                generateFood();
+                food.generateIn(field);
             }
         }
     }
 
-    private void generateFood() {
-        Cell food = null;
-        while (food == null) {
-            int x = (int) (Math.random() * BORDER_COORDINATE);
-            int y = (int) (Math.random() * BORDER_COORDINATE);
-            Cell potentialFood = field.getCell(x, y);
-            if (potentialFood.getState() == Cell.State.DEFAULT) {
-                food = potentialFood;
-                food.setState(Cell.State.FOOD);
-            }
-        }
-    }
-
-    private boolean snakeIsAlive(int x, int y) {
+    private boolean snakeIsMoving(int x, int y) {
         // выход за пределы массива поля равнозначен столкновению со стеной
         if (x > BORDER_COORDINATE || x < 0 ||
                 y > BORDER_COORDINATE || y < 0) {
@@ -90,6 +76,7 @@ public class TheGame implements Runnable {
             System.out.println("Балда укусила себя за хвост :(");
             return false;
         }
+
         // если змея осталась жива
         return true;
     }

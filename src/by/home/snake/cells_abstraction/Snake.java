@@ -13,18 +13,18 @@ public class Snake {
         grow(cell);
     }
 
-    public static enum State{
+    public static enum State {
         MOVE,
         GROW,
         BYTE_ITSELF,
         BUMP_INTO_WALL
     }
 
-    public State getState(){
+    public State getState() {
         return state;
     }
 
-    public void setState(State state){
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -52,7 +52,7 @@ public class Snake {
         return true;
     }
 
-    public Cell getSnakeHead(){
+    public Cell getSnakeHead() {
         return snake.getFirst();
     }
 
