@@ -3,24 +3,25 @@ package by.home.snake;
 import by.home.snake.cells_abstraction.Field;
 import by.home.snake.cells_abstraction.Food;
 import by.home.snake.cells_abstraction.Snake;
-import by.home.snake.user_interaction.UserActionController;
+import by.home.snake.user_interaction.SnakeController;
 import by.home.snake.utils.Coordinate;
+
+import java.util.List;
 
 
 public class TheGame implements Runnable {
 
     public static final int BORDER_COORDINATE = Field.SIDE_SIZE - 1;
 
-    private UserActionController controller;
-    private Snake snake;
+    private List<SnakeController> controllers;
     private Field field;
     private Food food;
 
+    // TODO хотелось бы чтобы была прямая зависимость
     private long gameSpeed = 500;
 
-    public TheGame(UserActionController controller, Snake snake, Field field) {
-        this.controller = controller;
-        this.snake = snake;
+    public TheGame(List<SnakeController> controllers, Field field) {
+        this.controllers = controllers;
         this.field = field;
     }
 
@@ -29,56 +30,83 @@ public class TheGame implements Runnable {
         //стартовая генерация еды
         food = new Food(field);
 
-        boolean gameIsRunning = true;
-
-        while (gameIsRunning) {
+        // проверяем не умерли ли все змеи в начале каждой итерации
+        while (!isGameOver()) {
             // задержка между фреймами игры
             sleep();
 
-            Coordinate coordinate = snake.getSnakeHead().getCoordinate();
-            int x = coordinate.getX();
-            int y = coordinate.getY();
-
-            switch (controller.getEnumSnakeDirection()) {
-                case UP:
-                    gameIsRunning = snakeIsMoving(x - 1, y);
-                    break;
-                case DOWN:
-                    gameIsRunning = snakeIsMoving(x + 1, y);
-                    break;
-                case LEFT:
-                    gameIsRunning = snakeIsMoving(x, y - 1);
-                    break;
-                case RIGHT:
-                    gameIsRunning = snakeIsMoving(x, y + 1);
-                    break;
-            }
-
-            // если змея съела еду,то генерируем новую еду
-            if (snake.getState() == Snake.State.GROW) {
-                food.generateIn(field);
+            // совершаем необходимый набор действий для каждой змейки
+            for (SnakeController controller : controllers) {
+                snakeInAction(controller);
             }
         }
     }
 
-    private boolean snakeIsMoving(int x, int y) {
+    private void snakeInAction(SnakeController controller) {
+        Snake snake = controller.getSnake();
+        Coordinate coordinate = snake.getSnakeHead().getCoordinate();
+        int x = coordinate.getX();
+        int y = coordinate.getY();
+
+        switch (controller.getEnumSnakeDirection()) {
+            case UP:
+                //TODO должен ли метод снейкИзМувиг принадлежать ЗеГейму ?
+                snakeIsMoving(snake,x - 1, y);
+                break;
+            case DOWN:
+                snakeIsMoving(snake,x + 1, y);
+                break;
+            case LEFT:
+                snakeIsMoving(snake,x, y - 1);
+                break;
+            case RIGHT:
+                snakeIsMoving(snake,x, y + 1);
+                break;
+        }
+
+        // если змея съела еду,то генерируем новую еду
+        if (snake.getState() == Snake.State.GROW) {
+            food.generateIn(field);
+        }
+    }
+
+    private boolean isGameOver() {
+        // количество мертвых змей
+        int deadSnakes = 0;
+
+        // идем по контроллера и проверяем сколько змей мертво
+        for (SnakeController controller : controllers) {
+            Snake snake = controller.getSnake();
+            Snake.State state = snake.getState();
+
+            // если змея укусила себя за хвост (или кусанула кого ещё) или ударилась в стену, - она мертва
+            if(state == Snake.State.BYTE_ITSELF || state == Snake.State.BUMP_INTO_WALL) {
+                deadSnakes++;
+            }
+
+            // если количество мертвых змей равно количеству контроллеров - все змеи умерли и значит игра завершена
+            if(controllers.size() == deadSnakes){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void snakeIsMoving(Snake snake, int x, int y) {
         // выход за пределы массива поля равнозначен столкновению со стеной
         if (x > BORDER_COORDINATE || x < 0 ||
                 y > BORDER_COORDINATE || y < 0) {
             snake.setState(Snake.State.BUMP_INTO_WALL);
             System.out.println("Дурында врезалась в стену :(");
-            return false;
+            // возвращаемся из метода, дальнейшее продвижение невозможно, - врезались в стену - змея мертва
+            return;
         }
 
         snake.move(field.getCell(x, y));
 
         if (snake.getState() == Snake.State.BYTE_ITSELF) {
             System.out.println("Балда укусила себя за хвост :(");
-            return false;
         }
-
-        // если змея осталась жива
-        return true;
     }
 
     private void sleep() {

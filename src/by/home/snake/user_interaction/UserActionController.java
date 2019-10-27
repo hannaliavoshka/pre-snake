@@ -5,12 +5,11 @@ import javafx.scene.input.KeyCode;
 
 public class UserActionController {
 
-    private Scene scene;
     private EnumSnakeDirection enumSnakeDirection;
 
     public UserActionController(Scene scene) {
         //используется созданная в window сцена
-        this.scene = scene;
+        setEventHandler(scene);
         this.enumSnakeDirection = EnumSnakeDirection.UP;
     }
 
@@ -32,14 +31,14 @@ public class UserActionController {
         }
     }
 
+    public EnumSnakeDirection getEnumSnakeDirection() {
+        return enumSnakeDirection;
+    }
+
     // получаем команды с клавиатуры
-    public void setEventHandler() {
+    private void setEventHandler(Scene scene) {
         // задали сцене EventHandler и переопределили метод handle который
         // отрабатывает на нажатие клавиши (см. анонимный класс)
         scene.setOnKeyPressed(event -> setEnumSnakeDirection(event.getCode()));
-    }
-
-    public EnumSnakeDirection getEnumSnakeDirection() {
-        return enumSnakeDirection;
     }
 }
