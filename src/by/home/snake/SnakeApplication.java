@@ -1,6 +1,7 @@
 package by.home.snake;
 
 import by.home.snake.cells_abstraction.Snake;
+import by.home.snake.user_interaction.EnumGamepadVersion;
 import by.home.snake.user_interaction.SnakeController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -25,8 +26,11 @@ public class SnakeApplication extends Application {
         // создали персонажа - кобру
         Snake snake = new Snake(window.getCentralCell());
         // создали контроллер для кобры
-        SnakeController controller = new SnakeController(window.getRootScene(), snake);
+        SnakeController controller = new SnakeController(EnumGamepadVersion.VERSION_ULDR, window.getRootScene(), snake);
         snakeRiders.add(controller);
+
+        //SnakeController controller_test = new SnakeController(EnumGamepadVersion.VERSION_WASD, window.getRootScene(), snake);
+        //snakeRiders.add(controller_test);
 
         // создали игровую задачу
         TheGame game = new TheGame(snakeRiders, window.getField());

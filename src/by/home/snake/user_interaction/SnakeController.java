@@ -7,8 +7,8 @@ public class SnakeController extends UserActionController {
 
     private Snake snake;
 
-    public SnakeController(Scene scene, Snake snake) {
-        super(scene);
+    public SnakeController(EnumGamepadVersion gamepadVersion, Scene scene, Snake snake) {
+        super(gamepadVersion, scene);
         this.snake = snake;
     }
 
