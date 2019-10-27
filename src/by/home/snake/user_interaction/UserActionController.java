@@ -6,28 +6,28 @@ import javafx.scene.input.KeyCode;
 public class UserActionController {
 
     private Scene scene;
-    private SnakeDirection snakeDirection;
+    private EnumSnakeDirection enumSnakeDirection;
 
     public UserActionController(Scene scene) {
         //используется созданная в window сцена
         this.scene = scene;
-        this.snakeDirection = SnakeDirection.UP;
+        this.enumSnakeDirection = EnumSnakeDirection.UP;
     }
 
-    private void setSnakeDirection(KeyCode inputCode) {
+    private void setEnumSnakeDirection(KeyCode inputCode) {
         // устанавливаем направление, заданное с клавиатуры
         switch (inputCode) {
             case UP:
-                snakeDirection = SnakeDirection.UP;
+                enumSnakeDirection = EnumSnakeDirection.UP;
                 break;
             case DOWN:
-                snakeDirection = SnakeDirection.DOWN;
+                enumSnakeDirection = EnumSnakeDirection.DOWN;
                 break;
             case LEFT:
-                snakeDirection = SnakeDirection.LEFT;
+                enumSnakeDirection = EnumSnakeDirection.LEFT;
                 break;
             case RIGHT:
-                snakeDirection = SnakeDirection.RIGHT;
+                enumSnakeDirection = EnumSnakeDirection.RIGHT;
                 break;
         }
     }
@@ -36,10 +36,10 @@ public class UserActionController {
     public void setEventHandler() {
         // задали сцене EventHandler и переопределили метод handle который
         // отрабатывает на нажатие клавиши (см. анонимный класс)
-        scene.setOnKeyPressed(event -> setSnakeDirection(event.getCode()));
+        scene.setOnKeyPressed(event -> setEnumSnakeDirection(event.getCode()));
     }
 
-    public SnakeDirection getSnakeDirection() {
-        return snakeDirection;
+    public EnumSnakeDirection getEnumSnakeDirection() {
+        return enumSnakeDirection;
     }
 }

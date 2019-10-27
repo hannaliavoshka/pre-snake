@@ -35,12 +35,10 @@ public class Snake {
             state = State.BYTE_ITSELF;
             return false;
         }
-        // если еда - змея растёт
+        // если еда - змея растёт, если просто движение - змея движется
         if (isGrow(cell)) {
             grow(cell);
             state = State.GROW;
-
-            // если просто движение - змея движется
         } else {
             snake.addFirst(cell);
             cell.setState(Cell.State.SNAKE);

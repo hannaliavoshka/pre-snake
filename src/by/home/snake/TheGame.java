@@ -39,7 +39,7 @@ public class TheGame implements Runnable {
             int x = coordinate.getX();
             int y = coordinate.getY();
 
-            switch (controller.getSnakeDirection()) {
+            switch (controller.getEnumSnakeDirection()) {
                 case UP:
                     gameIsRunning = snakeIsMoving(x - 1, y);
                     break;

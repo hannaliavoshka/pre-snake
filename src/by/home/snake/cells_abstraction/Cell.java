@@ -3,7 +3,6 @@ package by.home.snake.cells_abstraction;
 import by.home.snake.utils.Coordinate;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Pair;
 
 public class Cell extends Rectangle {
 

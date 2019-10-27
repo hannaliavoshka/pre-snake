@@ -4,8 +4,6 @@ import static by.home.snake.TheGame.BORDER_COORDINATE;
 
 public class Food {
 
-    private Cell food;
-
     public Food(Field field) {
         generateIn(field);
     }
