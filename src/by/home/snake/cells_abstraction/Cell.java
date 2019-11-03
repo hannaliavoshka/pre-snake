@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Cell extends Rectangle {
 
-    public static final double CELL_SIZE = 50; // cell side size
+    public static final double CELL_SIZE = 10; // cell side size
 
     private State state; // cell state
 

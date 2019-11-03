@@ -20,17 +20,18 @@ public class SnakeApplication extends Application {
         // создали окно, включающее игровое поле
         Window window = new Window(primaryStage);
 
+        // создали персонажей - кобру и питона
+        Snake cobra = new Snake(window.getField().getCell(7,7));
+        Snake python = new Snake(window.getField().getCell(4,4));
+
+        // создали контроллеры для змей
+        SnakeController cobraController = new SnakeController(EnumGamepadVersion.VERSION_ULDR, window.getRootScene(), cobra);
+        SnakeController pythonController = new SnakeController(EnumGamepadVersion.VERSION_WASD, window.getRootScene(), python);
+
         // список игроков, управленцев змей
         List<SnakeController> snakeRiders = new ArrayList<>();
-
-        // создали персонажа - кобру
-        Snake snake = new Snake(window.getCentralCell());
-        // создали контроллер для кобры
-        SnakeController controller = new SnakeController(EnumGamepadVersion.VERSION_ULDR, window.getRootScene(), snake);
-        snakeRiders.add(controller);
-
-        //SnakeController controller_test = new SnakeController(EnumGamepadVersion.VERSION_WASD, window.getRootScene(), snake);
-        //snakeRiders.add(controller_test);
+        snakeRiders.add(cobraController);
+        snakeRiders.add(pythonController);
 
         // создали игровую задачу
         TheGame game = new TheGame(snakeRiders, window.getField());

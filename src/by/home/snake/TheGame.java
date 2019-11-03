@@ -16,6 +16,7 @@ public class TheGame implements Runnable {
     private List<SnakeController> controllers;
     private Field field;
     private Food food;
+    private Food food2;
 
     // TODO хотелось бы чтобы была прямая зависимость
     private long gameSpeed = 500;
@@ -29,6 +30,7 @@ public class TheGame implements Runnable {
     public void run() {
         //стартовая генерация еды
         food = new Food(field);
+        food2 = new Food(field);
 
         // проверяем не умерли ли все змеи в начале каждой итерации
         while (!isGameOver()) {
@@ -67,6 +69,7 @@ public class TheGame implements Runnable {
         // если змея съела еду,то генерируем новую еду
         if (snake.getState() == Snake.State.GROW) {
             food.generateIn(field);
+            food2.generateIn(field);
         }
     }
 

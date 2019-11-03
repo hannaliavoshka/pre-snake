@@ -2,6 +2,7 @@ package by.home.snake.user_interaction;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class UserActionController {
 
@@ -9,8 +10,7 @@ public class UserActionController {
     private EnumGamepadVersion gamepad;
 
     public UserActionController(EnumGamepadVersion gamepadVersion, Scene scene) {
-        //используется созданная в window сцена
-        setEventHandler(scene);
+        addEventHandler(scene);
 
         this.gamepad = gamepadVersion;
         this.enumSnakeDirection = EnumSnakeDirection.UP;
@@ -34,9 +34,10 @@ public class UserActionController {
     }
 
     // получаем команды с клавиатуры
-    private void setEventHandler(Scene scene) {
-        // задали сцене EventHandler и переопределили метод handle который
-        // отрабатывает на нажатие клавиши (см. анонимный класс)
-        scene.setOnKeyPressed(event -> setEnumSnakeDirection(event.getCode()));
+    private void addEventHandler(Scene scene) {
+        scene.addEventHandler(
+                KeyEvent.KEY_PRESSED,
+                keyEvent -> setEnumSnakeDirection(keyEvent.getCode())
+        );
     }
 }

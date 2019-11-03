@@ -7,7 +7,7 @@ import by.home.snake.utils.Coordinate;
  */
 public class Field {
 
-    public static final int SIDE_SIZE = 10;
+    public static final int SIDE_SIZE = 70;
     private Cell[][] cellNet;
 
     public Field() {
