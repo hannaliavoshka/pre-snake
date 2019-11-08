@@ -1,12 +1,13 @@
 package by.home.snake.cells_abstraction;
 
+import by.home.snake.GameConstants;
 import by.home.snake.utils.Coordinate;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Cell extends Rectangle {
 
-    public static final double CELL_SIZE = 10; // cell side size
+    public static final double CELL_SIZE = GameConstants.CELL_SIZE.get(); // cell side size
 
     private State state; // cell state
 
@@ -46,6 +47,7 @@ public class Cell extends Rectangle {
                 return Color.WHITE;
             }
         },
+        // TODO: в будущем у змей должен быть разный цвет
         SNAKE {
             public Color getColor() {
                 return Color.GRAY;

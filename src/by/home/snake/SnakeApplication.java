@@ -20,9 +20,10 @@ public class SnakeApplication extends Application {
         // создали окно, включающее игровое поле
         Window window = new Window(primaryStage);
 
+        // TODO: места появления змеек не должны быть магическими
         // создали персонажей - кобру и питона
-        Snake cobra = new Snake(window.getField().getCell(7,7));
-        Snake python = new Snake(window.getField().getCell(4,4));
+        Snake cobra = new Snake("Cobra", window.getField().getCell(30,30));
+        Snake python = new Snake("Python", window.getField().getCell(35,35));
 
         // создали контроллеры для змей
         SnakeController cobraController = new SnakeController(EnumGamepadVersion.VERSION_ULDR, window.getRootScene(), cobra);

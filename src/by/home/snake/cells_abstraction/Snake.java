@@ -6,9 +6,11 @@ public class Snake {
     // змея это коллекция ссылок на клетки (очередь)
     private ArrayDeque<Cell> snake;
     private State state;
+    private String name;
 
-    public Snake(Cell cell) {
-        snake = new ArrayDeque<>();
+    public Snake(String name, Cell cell) {
+        this.snake = new ArrayDeque<>();
+        this.name = name;
         //when the snake is created, it needs a one Cell for it's body
         grow(cell);
     }
@@ -52,6 +54,14 @@ public class Snake {
 
     public Cell getSnakeHead() {
         return snake.getFirst();
+    }
+
+    public int getSnakeSize() {
+        return snake.size();
+    }
+
+    public String getName() {
+        return name;
     }
 
     private void grow(Cell cell) {
